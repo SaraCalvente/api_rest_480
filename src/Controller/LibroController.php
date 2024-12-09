@@ -26,6 +26,7 @@ class LibroController extends AbstractController
 
         foreach($libros as $libro){
             $libroJson[] = [
+                "id"=> $libro ->getId(),
                 "titulo" => $libro->getTitulo(),
                 "autor" => $libro->getAutor(),
                 "genero" => $libro->getGenero(),
@@ -63,6 +64,10 @@ class LibroController extends AbstractController
     public function libroActualizar($id, Request $request, EntityManagerInterface $entityManager, 
     LibroRepository $librorep): Response
     {
+        if (!$this->getUser()) {
+            return $this->json("No autenticado", Response::HTTP_UNAUTHORIZED);
+        }
+
         $libro = $librorep->find($id);
 
         if (!$libro) {
@@ -94,19 +99,20 @@ class LibroController extends AbstractController
         return $this->json("Libro actualizado correctamente", Response::HTTP_OK);
     }
 
+
     #[Route('/delete/{id}', name: 'libro_delete_id')]
     public function libroDeleteId($id, LibroRepository $librorep, EntityManagerInterface $entitymanager): Response{
         dump($id);
         $libro = $librorep -> find($id);
 
         if(!$libro)
-            return $this->json("Usuario no encontrado", Response::HTTP_NOT_FOUND);
+            return $this->json("Libro no encontrado", Response::HTTP_NOT_FOUND);
 
 
         $entitymanager -> remove($libro);
         $entitymanager -> flush();
         
-        return $this -> json("Usuario Borrado", Response::HTTP_OK);
+        return $this -> json("Libro Borrado", Response::HTTP_OK);
     }
 
 

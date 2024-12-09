@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JWT Auth</title>
+    <script>
+        // Función para eliminar un libro por ID
+        async function deleteBook() {
+            // Solicitar el ID del libro a eliminar
+            const bookId = prompt("Ingrese el ID del libro a eliminar:");
+            if (!bookId) {
+                alert("ID no proporcionado");
+                return;
+            }
+
+            // Obtener el token JWT
+            const loginResponse = await fetch("http://localhost:8000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: "usuario@example.com", // Reemplaza con un usuario válido
+                    password: "contraseña",      // Reemplaza con la contraseña válida
+                }),
+            });
+
+            if (!loginResponse.ok) {
+                alert("Error al autenticar: " + (await loginResponse.text()));
+                return;
+            }
+
+            const loginData = await loginResponse.json();
+            const token = loginData.token;
+
+            // Realizar la solicitud DELETE con el ID proporcionado
+            const deleteResponse = await fetch(`http://localhost:8000/libro/delete/${bookId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+
+            if (deleteResponse.ok) {
+                alert(`Libro con ID ${bookId} eliminado correctamente`);
+            } else {
+                const errorText = await deleteResponse.text();
+                alert(`Error al eliminar el libro: ${errorText}`);
+            }
+        }
+
+        // Llama a la función cuando sea necesario
+        deleteBook();
+    </script>
+</head>
+</html>
