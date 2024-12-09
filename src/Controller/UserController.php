@@ -28,9 +28,11 @@ class UserController extends AbstractController
 
         foreach($users as $user){
             $userJson[] = [
+                "id" => $user->getId(),
                 "email" => $user->getEmail(),
                 "nombre" => $user->getNombre(),
                 "edad" => $user->getEdad(),
+                
             ];
         }
         return $this -> json($userJson);

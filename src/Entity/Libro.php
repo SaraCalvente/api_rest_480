@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\LibroRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=LibroRepository::class)
@@ -19,21 +21,25 @@ class Libro
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="El título no puede estar vacío.")
      */
     private $titulo;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="El/la autor/a no puede estar vacío.")
      */
     private $autor;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(message="El genero no puede estar vacío.")
      */
     private $genero;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="El año de publicación no puede estar vacío.")
      */
     private $año_publicacion;
 

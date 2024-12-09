@@ -1,13 +1,10 @@
 security:
     enable_authenticator_manager: true
-
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\User:
             algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
             entity:
@@ -15,39 +12,23 @@ security:
                 property: email
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            pattern: ^/
-            provider: app_user_provider
-            form_login:
-                login_path: login  # Ruta del formulario de login
-                check_path: login  # Ruta para procesar el login
-                default_target_path: /libro/get  # Redirigir después de un login exitoso
-            logout:
-                path: /logout
-                target: /  
-            remember_me: 
-                secret: '%env(APP_SECRET)%'  # Usar la clave secreta definida en .env
-                lifetime: 604800  # Duración de la cookie (1 semana)
-                path: /  # Ruta donde la cookie es válida
-            
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+        api:
+            pattern: ^/
+            stateless: true
+            entry_point: lexik_jwt_authentication.jwt_token_authenticator
+            jwt: ~  
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-        #- { path: ^/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/libro/delete, roles: ROLE_USER }
-        - { path: ^/libro/put, roles: ROLE_USER }
-        - { path: ^/user/delete, roles: ROLE_USER }
-when@test:
-    security:
-        password_hashers:
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+        # Protege solo las rutas PUT y DELETE para libros
+         - { path: ^/libro/delete, roles: ROLE_USER }
+         - { path: ^/libro/put, roles: ROLE_USER }
+         - { path: ^/user/delete, roles: ROLE_USER }
+    

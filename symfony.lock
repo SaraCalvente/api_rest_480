@@ -38,6 +38,9 @@
             "migrations/.gitignore"
         ]
     },
+    "jms/serializer-bundle": {
+        "version": "0.10"
+    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.19",
         "recipe": {

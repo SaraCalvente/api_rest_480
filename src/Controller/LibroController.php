@@ -10,14 +10,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Libro; 
 use App\Repository\LibroRepository;
 
-
-
-
 #[Route('/libro', name: 'libro')]
 
 class LibroController extends AbstractController
-{
-
+{   
+    
     #[Route('/get', name: 'libro_get')]
     public function libroGet(LibroRepository $librorep): Response{
 
@@ -64,8 +61,12 @@ class LibroController extends AbstractController
     public function libroActualizar($id, Request $request, EntityManagerInterface $entityManager, 
     LibroRepository $librorep): Response
     {
-        if (!$this->getUser()) {
-            return $this->json("No autenticado", Response::HTTP_UNAUTHORIZED);
+        if (!$user) {
+            return $this->json(['message' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->json(['message' => 'Acceso denegado'], Response::HTTP_FORBIDDEN);
         }
 
         $libro = $librorep->find($id);
@@ -99,20 +100,30 @@ class LibroController extends AbstractController
         return $this->json("Libro actualizado correctamente", Response::HTTP_OK);
     }
 
-
-    #[Route('/delete/{id}', name: 'libro_delete_id')]
-    public function libroDeleteId($id, LibroRepository $librorep, EntityManagerInterface $entitymanager): Response{
-        dump($id);
-        $libro = $librorep -> find($id);
-
-        if(!$libro)
-            return $this->json("Libro no encontrado", Response::HTTP_NOT_FOUND);
-
-
-        $entitymanager -> remove($libro);
-        $entitymanager -> flush();
+    #[Route('/delete/{id}', name: 'libro_delete')]
+    public function libroDeleteId($id, LibroRepository $librorep, EntityManagerInterface $entitymanager): Response
+    {
         
-        return $this -> json("Libro Borrado", Response::HTTP_OK);
+        $user = $this->getUser();
+        
+        if (!$user) {
+            return $this->json(['message' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->json(['message' => 'Acceso denegado'], Response::HTTP_FORBIDDEN);
+        }
+
+        $libro = $librorep->find($id);
+        
+        if (!$libro) {
+            return $this->json(['message' => 'Libro no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+        
+        $entitymanager->remove($libro);
+        $entitymanager->flush();
+        
+        return $this->json(['message' => 'Libro borrado exitosamente'], Response::HTTP_OK);
     }
 
 

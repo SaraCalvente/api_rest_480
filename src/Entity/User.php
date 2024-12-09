@@ -29,11 +29,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /** 
     * @ORM\Column(type="string")
+    * @Assert\NotBlank(message="El nombre no puede estar vacío.")
     */
     private $nombre;
 
     /** 
     * @ORM\Column(type="integer")
+    * @Assert\NotBlank(message="La edad no puede estar vacía.")
     */
     private $edad;
 
