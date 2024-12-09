@@ -48,7 +48,7 @@ class UserController extends AbstractController
         $user->setEmail($data["email"]);
         $user->setNombre($data["nombre"]);
         $user->setEdad($data["edad"]);
-    
+        $user->setPassword($data["password"]);
         $errors = $validator->validate($user);
     
         if (count($errors) > 0) {
@@ -65,7 +65,9 @@ class UserController extends AbstractController
         $entitymanager->persist($user);
         $entitymanager->flush();
     
-        return $this->json("Usuario Creado Correctamente", Response::HTTP_CREATED);
+        return $this->json([
+            'id' => $user->getId(),
+            'message' => "Usuario Creado Correctamente", Response::HTTP_CREATED]);
     }
 
     #[Route('/delete/{id}', name: 'user_delete_id')]

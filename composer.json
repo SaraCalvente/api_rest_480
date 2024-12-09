@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.20",
         "firebase/php-jwt": "^6.10",
+        "guzzlehttp/guzzle": "^7.9",
         "jms/serializer-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "*",
         "phpdocumentor/reflection-docblock": "^5.6",
@@ -95,6 +96,7 @@
         }
     },
     "require-dev": {
+        "hautelook/alice-bundle": "^2.9",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "5.3.*",
         "symfony/css-selector": "5.3.*",
