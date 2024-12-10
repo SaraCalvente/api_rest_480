@@ -4,6 +4,7 @@ Este proyecto implementa una API REST utilizando Symfony como framework backend,
 La API permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una entidad de “libros”, y está protegida por autenticación JWT.
 
 *Requisitos*
+
 Para ejecutar este proyecto, necesitarás tener los siguientes requisitos previos:
 	•	PHP 8.0 o superior
 	•	Composer (para gestionar dependencias)
