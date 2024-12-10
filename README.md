@@ -15,11 +15,11 @@ Tabla de contenidos:
 ## Requisitos
 
 Para ejecutar este proyecto, necesitarás tener los siguientes requisitos previos:
-	•	PHP 8.0 o superior
-	•	Composer (para gestionar dependencias)
-	•	Symfony CLI
-	•	SQLite (no requiere instalación adicional, ya que Symfony se conecta a una base de datos SQLite)
-	•	Un cliente HTTP como Postman o Thunder Client para realizar las peticiones a la API.
+- PHP 8.0 o superior
+- Composer (para gestionar dependencias)
+- Symfony CLI
+- SQLite (no requiere instalación adicional, ya que Symfony se conecta a una base de datos SQLite)
+- Un cliente HTTP como Postman o Thunder Client para realizar las peticiones a la API.
 
 
 
@@ -77,15 +77,17 @@ Para ejecutar este proyecto, necesitarás tener los siguientes requisitos previo
   ### 2. Realizar peticiones API
 
    La API proporciona las siguientes rutas para interactuar con los “libros”:
-  	•	GET /libro/get: Obtiene una lista de todos los libros.
-  	•	POST /libro/post: Crea un nuevo libro. Necesita los campos titulo, autor, genero, y año_publicacion en el cuerpo de la solicitud.
-  	•	PUT /libro/put/{id}: Actualiza un libro existente.
-  	•	DELETE /libro/delete/{id}: Elimina un libro por ID.
+   
+- GET /libro/get: Obtiene una lista de todos los libros.
+- POST /libro/post: Crea un nuevo libro. Necesita los campos titulo, autor, genero, y año_publicacion en el cuerpo de la solicitud.
+- PUT /libro/put/{id}: Actualiza un libro existente.
+- DELETE /libro/delete/{id}: Elimina un libro por ID.
 
-   Y  proporciona las siguientes rutas para interactuar con los “usuarios”:
-  	•	GET /user/get: Obtiene una usuario de todos los usuarios.
-  	•	POST /user/post: Crea un nuevo usuario. Necesita los campos email, nombre, y edad en el cuerpo de la solicitud.
-  	•	DELETE /user/delete/{id}: Elimina un usuario por ID.
+ #### Y  proporciona las siguientes rutas para interactuar con los “usuarios”:
+  
+- GET /user/get: Obtiene una usuario de todos los usuarios.
+- POST /user/post: Crea un nuevo usuario. Necesita los campos email, nombre, y edad en el cuerpo de la solicitud.
+- DELETE /user/delete/{id}: Elimina un usuario por ID.
 
   ### 3.Ejemplo de autenticación con JWT
     
