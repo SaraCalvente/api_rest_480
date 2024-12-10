@@ -32,14 +32,12 @@ class LoginController extends AbstractController
         $email = $data['email'];
         $password = $data['password'];
 
-        // Buscar el usuario
         $user = $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
 
         if (!$user || !$this->encoder->isPasswordValid($user, $password)) {
             return new JsonResponse(['message' => 'Invalid credentials'], 401);
         }
 
-        // Generar el JWT
         $token = $this->jwtManager->create($user);
 
         return new JsonResponse(['token' => $token]);
